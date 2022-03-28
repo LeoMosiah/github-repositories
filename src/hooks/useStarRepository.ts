@@ -4,10 +4,9 @@ import { useLocalStorage } from "./useLocalStorage";
 type UseStarRepository = [boolean, () => void];
 
 export function useStarRepository(id: number): UseStarRepository {
-  const [getStarredRepositories, setStarredRepositories] = useLocalStorage<
+  const [starredRepositories, setStarredRepositories] = useLocalStorage<
     number[]
   >("starredRepositories", []);
-  const starredRepositories = getStarredRepositories();
   const starred = starredRepositories.includes(id);
 
   const onStar = (): void => {

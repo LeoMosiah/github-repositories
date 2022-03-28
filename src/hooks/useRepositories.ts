@@ -19,7 +19,7 @@ type UseRepositories = {
 };
 
 export function useRepositories(): UseRepositories {
-  const [getStarredRepositories] = useLocalStorage<number[]>(
+  const [starredRepositories] = useLocalStorage<number[]>(
     "starredRepositories",
     []
   );
@@ -48,8 +48,6 @@ export function useRepositories(): UseRepositories {
   useEffect(() => {
     fetchRepositories();
   }, [fetchRepositories]);
-
-  const starredRepositories = getStarredRepositories();
 
   const byLanguage = (item: Repository): boolean => {
     if (!language) {

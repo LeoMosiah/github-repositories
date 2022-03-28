@@ -63,7 +63,7 @@ describe("useRepositories", () => {
       Promise.resolve(mockedResponse)
     );
     (useLocalStorage as jest.Mock).mockImplementation(() => [
-      () => mockedStarredRepositories,
+      mockedStarredRepositories,
       jest.fn(),
     ]);
     jest.clearAllMocks();

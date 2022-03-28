@@ -4,8 +4,13 @@ import { Repository } from "./types/repositories";
 import { RepositoryItem } from "./components/RepositoryItem/RepositoryItem";
 import { useRepositories } from "./hooks/useRepositories";
 import { Switch } from "./components/Switch";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 function App() {
+  const [starredRepositories] = useLocalStorage<number[]>(
+    "starredRepositories",
+    []
+  );
   const {
     items,
     totalCount,

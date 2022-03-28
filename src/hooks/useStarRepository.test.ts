@@ -20,7 +20,7 @@ const mockedRepository: Repository = {
 describe("useStarRepository", () => {
   it("should save the repository id on localstorage if repository  was not already starred", () => {
     (useLocalStorage as jest.Mock).mockImplementation(() => [
-      () => [],
+      [],
       mockedSetLocalStorageValue,
     ]);
     const { result } = renderHook(() => useStarRepository(mockedRepository.id));
@@ -35,7 +35,7 @@ describe("useStarRepository", () => {
 
   it("should remove the repository id on localstorage if repository is already starred", () => {
     (useLocalStorage as jest.Mock).mockImplementation(() => [
-      () => [mockedRepository.id],
+      [mockedRepository.id],
       mockedSetLocalStorageValue,
     ]);
     const { result } = renderHook(() => useStarRepository(mockedRepository.id));
