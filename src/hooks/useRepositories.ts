@@ -16,13 +16,16 @@ type UseRepositories = {
   error: boolean;
   refetch: () => void;
   languages: string[];
+  onStar: (repositoryId: number) => void;
+  starredRepositories: {
+    [repositoryId: number]: boolean;
+  };
 };
 
 export function useRepositories(): UseRepositories {
-  const [starredRepositories] = useLocalStorage<number[]>(
-    "starredRepositories",
-    []
-  );
+  const [starredRepositories, setStarredRepositories] = useLocalStorage<{
+    [repositoryId: number]: boolean;
+  }>("starredRepositories", {});
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [data, setData] = useState<
@@ -60,7 +63,23 @@ export function useRepositories(): UseRepositories {
     if (!showStarred) {
       return true;
     }
-    return starredRepositories.includes(item.id);
+    return starredRepositories[item.id] === true;
+  };
+
+  const onStar = (repositoryId: number): void => {
+    const starred = starredRepositories[repositoryId];
+    if (starred) {
+      const newStarredRepositories = {
+        ...starredRepositories,
+      };
+      delete newStarredRepositories[repositoryId];
+      setStarredRepositories(newStarredRepositories);
+    } else {
+      setStarredRepositories({
+        ...starredRepositories,
+        [repositoryId]: true,
+      });
+    }
   };
 
   const items: Repository[] = data?.items || [];
@@ -84,5 +103,7 @@ export function useRepositories(): UseRepositories {
     error,
     languages,
     refetch: fetchRepositories,
+    starredRepositories,
+    onStar,
   };
 }

@@ -4,7 +4,6 @@ import { Repository } from "./types/repositories";
 import { RepositoryItem } from "./components/RepositoryItem/RepositoryItem";
 import { useRepositories } from "./hooks/useRepositories";
 import { Switch } from "./components/Switch";
-import { useLocalStorage } from "./hooks/useLocalStorage";
 
 function App() {
   const {
@@ -20,6 +19,8 @@ function App() {
     languages,
     error,
     refetch,
+    onStar,
+    starredRepositories,
   } = useRepositories();
   return (
     <div>
@@ -43,7 +44,14 @@ function App() {
       {error && <button onClick={refetch}>Retry</button>}
       <div className="row__centered">
         <ul className="repositories__list">
-          {items.map(renderRepositoryItem)}
+          {items.map((repository: Repository) => (
+            <RepositoryItem
+              key={repository.id}
+              item={repository}
+              isStarred={starredRepositories[repository.id]}
+              onStar={onStar}
+            />
+          ))}
         </ul>
       </div>
       <div className="row__centered">
@@ -56,10 +64,6 @@ function App() {
       </div>
     </div>
   );
-}
-
-function renderRepositoryItem(item: Repository): React.ReactElement {
-  return <RepositoryItem key={item.id} item={item} />;
 }
 
 export default App;

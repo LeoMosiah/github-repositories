@@ -22,36 +22,12 @@ describe("RepositoryItem", () => {
     window.localStorage.setItem("starredRepositories", JSON.stringify([]));
   });
   it("should render name, github link, description, and number of stars", () => {
-    const { getByText } = render(<RepositoryItem item={mockedItem} />);
+    const { getByText } = render(
+      <RepositoryItem item={mockedItem} onStar={jest.fn()} />
+    );
     expect(getByText(name)).toBeInTheDocument();
     expect(getByText(description)).toBeInTheDocument();
     expect(getByText(language)).toBeInTheDocument();
     expect(getByText(stargazers_count)).toBeInTheDocument();
-  });
-
-  it("should start a repository item if item is no already starred", () => {
-    const { getByRole } = render(<RepositoryItem item={mockedItem} />);
-    const starButton = getByRole("button");
-    fireEvent.click(starButton);
-    const localStorageStarredRepository = window.localStorage.getItem(
-      "starredRepositories"
-    );
-    const expectedLocalStorageValue = JSON.stringify([mockedItem.id]);
-    expect(localStorageStarredRepository).toEqual(expectedLocalStorageValue);
-  });
-
-  it("shoulds unstart a repository item if item is already starred", () => {
-    window.localStorage.setItem(
-      "starredRepositories",
-      JSON.stringify([mockedItem.id])
-    );
-    const { getByRole } = render(<RepositoryItem item={mockedItem} />);
-    const starButton = getByRole("button");
-    fireEvent.click(starButton);
-    const localStorageStarredRepository = window.localStorage.getItem(
-      "starredRepositories"
-    );
-    const expectedLocalStorageValue = JSON.stringify([]);
-    expect(localStorageStarredRepository).toEqual(expectedLocalStorageValue);
   });
 });

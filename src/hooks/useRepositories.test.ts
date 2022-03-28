@@ -12,6 +12,8 @@ jest.mock("./useLocalStorage", () => ({
   useLocalStorage: jest.fn(),
 }));
 
+const mockedSetLocalStorageValue = jest.fn();
+
 const starredRepository: Repository = {
   id: 2,
   name: "name2",
@@ -50,7 +52,9 @@ export const mockedItems: Repository[] = [
   pythonRepository,
 ];
 
-export const mockedStarredRepositories = [starredRepository.id];
+const localStorageKey = "starredRepositories";
+
+export const mockedStarredRepositories = { [starredRepository.id]: true };
 
 const mockedResponse = {
   items: mockedItems,

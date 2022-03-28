@@ -1,15 +1,15 @@
 import React from "react";
 import "./RepositoryItem.css";
 import { Repository } from "../../types/repositories";
-import { useStarRepository } from "../../hooks/useStarRepository";
 
 type Props = {
   item: Repository;
+  isStarred?: boolean;
+  onStar: (repositoryId: number) => void;
 };
 
 export const RepositoryItem: React.FC<Props> = (props: Props) => {
-  const { item } = props;
-  const [starred, setStar] = useStarRepository(item.id);
+  const { item, onStar, isStarred = false } = props;
 
   return (
     <li className="list__item">
@@ -19,12 +19,12 @@ export const RepositoryItem: React.FC<Props> = (props: Props) => {
         target="_blank"
         rel="noreferrer"
       >
-        {item.name}{" "}
+        {item.name}
       </a>
       <span className="list__item--description">{item.description}</span>
       <div>
-        <button className="list__item--button" onClick={setStar}>
-          {renderIcon(starred)}
+        <button className="list__item--button" onClick={() => onStar(item.id)}>
+          {renderIcon(isStarred)}
         </button>
         <span className="list__item--language">{item.stargazers_count}</span>
         <span className="list__item--language">{item.language}</span>
