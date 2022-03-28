@@ -7,10 +7,6 @@ import { Switch } from "./components/Switch";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 
 function App() {
-  const [starredRepositories] = useLocalStorage<number[]>(
-    "starredRepositories",
-    []
-  );
   const {
     items,
     totalCount,
